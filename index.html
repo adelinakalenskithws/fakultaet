@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Challenge</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    .done { color: green; }
+    .hidden { display: none; }
+    button { font-size: 20px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+<h1>🎯 QR Challenge</h1>
+
+<p id="status"></p>
+
+<div id="reward" class="hidden">
+  <h2>🍿 Dein Popcorn-Gutschein!</h2>
+  <p>Zeig diesen Screen vor 🎉</p>
+  <h3>CODE: POPCORN-2026</h3>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const station = params.get("s");
+
+  let scanned = JSON.parse(localStorage.getItem("scanned") || "{}");
+
+  if (station) {
+    scanned[station] = true;
+    localStorage.setItem("scanned", JSON.stringify(scanned));
+  }
+
+  const status = document.getElementById("status");
+
+  let done = [];
+  for (let i = 1; i <= 3; i++) {
+    if (scanned[i]) {
+      done.push("✅ Station " + i);
+    } else {
+      done.push("⬜ Station " + i);
+    }
+  }
+
+  status.innerHTML = done.join("<br>");
+
+  if (scanned[1] && scanned[2] && scanned[3]) {
+    document.getElementById("reward").classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>

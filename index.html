@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,34 +28,11 @@
       max-width: 420px;
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 24px;
       padding: 28px 22px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       text-align: center;
-    }
-
-    .answer-btn {
-      border: none;
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 16px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      transition: 0.2s;
-    }
-
-    .answer-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    button {
-      border: none;
-      border-radius: 14px;
-      padding: 14px 20px;
-      font-size: 16px;
-      cursor: pointer;
     }
 
     .emoji {
@@ -85,7 +61,7 @@
     }
 
     .station {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.08);
       border-radius: 18px;
       padding: 16px;
       display: flex;
@@ -96,13 +72,13 @@
     }
 
     .station.done {
-      background: rgba(34, 197, 94, 0.18);
-      border: 1px solid rgba(34, 197, 94, 0.4);
+      background: rgba(34,197,94,0.18);
+      border: 1px solid rgba(34,197,94,0.4);
     }
 
     .station.pending {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .reward {
@@ -124,7 +100,7 @@
     }
 
     .code {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255,255,255,0.2);
       border-radius: 14px;
       padding: 14px;
       font-size: 24px;
@@ -143,7 +119,7 @@
     .progress-bar {
       width: 100%;
       height: 12px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.1);
       border-radius: 999px;
       overflow: hidden;
       margin-top: 10px;
@@ -162,7 +138,6 @@
         transform: scale(0.9);
         opacity: 0;
       }
-
       to {
         transform: scale(1);
         opacity: 1;
@@ -184,17 +159,16 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="container">
 
-    <div class="emoji">🪙</div>
+    <div class="emoji">🎯</div>
 
     <h1>QR Challenge</h1>
 
     <p class="subtitle">
-      Scanne den QR Code an mindestens 3 Stationen, um deinen Gutschein freizuschalten.
+      Scanne alle 3 Stationen, um deinen Gutschein freizuschalten.
     </p>
 
     <div class="progress">
@@ -219,52 +193,52 @@
 
   </div>
 
-  <script>
-    const questions = {
-      1: {
-        question: "Welche Farbe hat der Himmel?",
-        answers: ["Rot", "Blau", "Grün"],
-        correct: 1
-      },
-      2: {
-        question: "Wie viele Tage hat eine Woche?",
-        answers: ["7", "5", "10"],
-        correct: 0
-      },
-      3: {
-        question: "Welches Tier miaut?",
-        answers: ["Hund", "Katze", "Pferd"],
-        correct: 1
-      },
-      4: {
-        question: "Wie viel ist 2 + 2?",
-        answers: ["3", "4", "5"],
-        correct: 1
-      },
-      5: {
-        question: "Welche Jahreszeit kommt nach dem Frühling?",
-        answers: ["Winter", "Herbst", "Sommer"],
-        correct: 2
-      }
-    };
+ <script>
+const questions = {
+  1: {
+    question: "Welche Farbe hat der Himmel?",
+    answers: ["Rot", "Blau", "Grün"],
+    correct: 1
+  },
+  2: {
+    question: "Wie viele Tage hat eine Woche?",
+    answers: ["7", "5", "10"],
+    correct: 0
+  },
+  3: {
+    question: "Welches Tier miaut?",
+    answers: ["Hund", "Katze", "Pferd"],
+    correct: 1
+  },
+  4: {
+    question: "Wie viel ist 2 + 2?",
+    answers: ["3", "4", "5"],
+    correct: 1
+  },
+  5: {
+    question: "Welche Jahreszeit kommt nach dem Frühling?",
+    answers: ["Winter", "Herbst", "Sommer"],
+    correct: 2
+  }
+};
 
-    const params = new URLSearchParams(window.location.search);
-    const station = params.get("s");
+const params = new URLSearchParams(window.location.search);
+const station = params.get("s");
 
-    let coins = JSON.parse(localStorage.getItem("coins") || "[]");
-    let rewardClaimed = localStorage.getItem("rewardClaimed") === "true";
+let coins = JSON.parse(localStorage.getItem("coins") || "[]");
+let rewardClaimed = localStorage.getItem("rewardClaimed") === "true";
 
-    const container = document.querySelector(".container");
+const container = document.querySelector(".container");
 
-    function renderHome() {
+function renderHome() {
 
-      let html = `
+  let html = `
     <div class="emoji">🪙</div>
 
     <h1>QR Challenge</h1>
 
     <p class="subtitle">
-      Sammle mindestens 3 Münzen. Scanne dafür die QR Codes mit den Fragen mit deiner Kamera.
+      Sammle mindestens 3 Münzen.
     </p>
 
     <div class="progress">
@@ -272,34 +246,34 @@
 
       <div class="progress-bar">
         <div class="progress-fill"
-             style="width:${Math.min(coins.length, 3) / 3 * 100}%"></div>
+             style="width:${Math.min(coins.length,3)/3*100}%"></div>
       </div>
     </div>
   `;
 
-      for (let i = 1; i <= 5; i++) {
+  for(let i=1;i<=5;i++) {
 
-        const done = coins.includes(String(i));
+    const done = coins.includes(String(i));
 
-        html += `
+    html += `
       <div class="station ${done ? 'done' : 'pending'}">
         <span>Station ${i}</span>
         <span>${done ? '🪙' : '⬜'}</span>
       </div>
     `;
-      }
+  }
 
-      if (rewardClaimed) {
+  if(rewardClaimed){
 
-        html += `
+    html += `
       <div class="reward">
-        <h2>Der Gewinn wurde bereits eingelöst</h2>
+        <h2>✅ Gewinn bereits eingelöst</h2>
       </div>
     `;
 
-      } else if (coins.length >= 3) {
+  } else if(coins.length >= 3){
 
-        html += `
+    html += `
       <div class="reward">
         <h2>🎉 Glückwunsch!</h2>
 
@@ -312,51 +286,51 @@
         </button>
       </div>
     `;
-      }
+  }
 
-      container.innerHTML = html;
+  container.innerHTML = html;
 
-      const btn = document.getElementById("claimReward");
+  const btn = document.getElementById("claimReward");
 
-      if (btn) {
-        btn.addEventListener("click", () => {
+  if(btn){
+    btn.addEventListener("click", () => {
 
-          localStorage.setItem("rewardClaimed", "true");
+      localStorage.setItem("rewardClaimed", "true");
 
-          location.href = window.location.pathname;
-        });
-      }
-    }
+      location.href = window.location.pathname;
+    });
+  }
+}
 
-    function showQuestion(stationId) {
+function showQuestion(stationId){
 
-      if (coins.includes(stationId)) {
+  if(coins.includes(stationId)){
 
-        renderHome();
-        return;
-      }
+    renderHome();
+    return;
+  }
 
-      const q = questions[stationId];
+  const q = questions[stationId];
 
-      if (!q) {
-        renderHome();
-        return;
-      }
+  if(!q){
+    renderHome();
+    return;
+  }
 
-      let answersHtml = "";
+  let answersHtml = "";
 
-      q.answers.forEach((answer, index) => {
+  q.answers.forEach((answer,index)=>{
 
-        answersHtml += `
+    answersHtml += `
       <button
         class="answer-btn"
         onclick="checkAnswer(${stationId},${index})">
         ${answer}
       </button>
     `;
-      });
+  });
 
-      container.innerHTML = `
+  container.innerHTML = `
     <div class="emoji">❓</div>
 
     <h1>Station ${stationId}</h1>
@@ -373,43 +347,42 @@
        style="margin-top:20px;font-weight:bold;">
     </p>
   `;
-    }
+}
 
-    window.checkAnswer = function (stationId, answerIndex) {
+window.checkAnswer = function(stationId, answerIndex){
 
-      const q = questions[stationId];
-      const result = document.getElementById("result");
+  const q = questions[stationId];
+  const result = document.getElementById("result");
 
-      if (answerIndex === q.correct) {
+  if(answerIndex === q.correct){
 
-        coins.push(String(stationId));
+    coins.push(String(stationId));
 
-        localStorage.setItem(
-          "coins",
-          JSON.stringify(coins)
-        );
+    localStorage.setItem(
+      "coins",
+      JSON.stringify(coins)
+    );
 
-        result.innerHTML =
-          "✅ Richtig! Du hast eine Münze erhalten.";
+    result.innerHTML =
+      "✅ Richtig! Du hast eine Münze erhalten.";
 
-        setTimeout(() => {
-          location.href = window.location.pathname;
-        }, 1500);
+    setTimeout(() => {
+      location.href = window.location.pathname;
+    }, 1500);
 
-      } else {
+  } else {
 
-        result.innerHTML =
-          "❌ Schade, versuche es nochmal.";
-      }
-    }
+    result.innerHTML =
+      "❌ Schade, versuche es nochmal.";
+  }
+}
 
-    if (station && questions[station]) {
-      showQuestion(station);
-    } else {
-      renderHome();
-    }
-  </script>
+if(station && questions[station]){
+  showQuestion(station);
+} else {
+  renderHome();
+}
+</script>
 
 </body>
-
 </html>

@@ -187,6 +187,38 @@
 
 <body>
 
+  <div class="container">
+
+    <div class="emoji">🪙</div>
+
+    <h1>QR Challenge</h1>
+
+    <p class="subtitle">
+      Scanne den QR Code an mindestens 3 Stationen, um deinen Gutschein freizuschalten.
+    </p>
+
+    <div class="progress">
+      <div id="progressText">0 / 3 Stationen geschafft</div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="stations" id="status"></div>
+
+    <div id="reward" class="reward hidden">
+      <h2>🎉 Gutschein freigeschaltet!</h2>
+
+      <p>Zeig diesen Screen vor:</p>
+
+      <div class="code">
+        POPCORN-2026
+      </div>
+    </div>
+
+  </div>
+
   <script>
     const questions = {
       1: {

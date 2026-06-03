@@ -187,38 +187,6 @@
 
 <body>
 
-  <div class="container">
-
-    <div class="emoji">🎯</div>
-
-    <h1>QR Challenge</h1>
-
-    <p class="subtitle">
-      Scanne alle 3 Stationen, um deinen Gutschein freizuschalten.
-    </p>
-
-    <div class="progress">
-      <div id="progressText">0 / 3 Stationen geschafft</div>
-
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
-    <div class="stations" id="status"></div>
-
-    <div id="reward" class="reward hidden">
-      <h2>🎉 Gutschein freigeschaltet!</h2>
-
-      <p>Zeig diesen Screen vor:</p>
-
-      <div class="code">
-        POPCORN-2026
-      </div>
-    </div>
-
-  </div>
-
   <script>
     const questions = {
       1: {
@@ -264,7 +232,7 @@
     <h1>QR Challenge</h1>
 
     <p class="subtitle">
-      Sammle mindestens 3 Münzen.
+      Sammle mindestens 3 Münzen. Scanne dafür die QR Codes mit den Fragen mit deiner Kamera.
     </p>
 
     <div class="progress">
@@ -293,7 +261,7 @@
 
         html += `
       <div class="reward">
-        <h2>✅ Gewinn bereits eingelöst</h2>
+        <h2>Der Gewinn wurde bereits eingelöst</h2>
       </div>
     `;
 

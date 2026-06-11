@@ -349,8 +349,8 @@ for(let i=1;i<=9;i++){
 
 html += `
 <div class="station ${coins.includes(String(i)) ? 'done' : ''}">
-<span>Station ${i}</span>
-<span>${coins.includes(String(i)) ? 'Erledigt' : 'Offen'}</span>
+<span>${questions[i].faculty}</span>
+<span>${coins.includes(String(i)) ? '✅' : '⬜'}</span>
 </div>
 `;
 }
@@ -372,7 +372,7 @@ html += `
 <h2>Gewinn freigeschaltet</h2>
 
 <p>
-Gehe jetzt zum Gewinnstand und zeige diese Seite vor.
+Gehe jetzt zum Gewinnstand und zeige diesen Button. WICHTIG: Nicht drücken, sonst ist dein Gewinn nicht mehr gültig :)
 </p>
 
 <button onclick="claimReward()">
@@ -456,6 +456,14 @@ const result = document.getElementById("result");
 if(isCorrect){
 
 coins.push(String(id));
+if(
+  coins.length === REQUIRED_COINS &&
+  !rewardClaimed
+){
+  alert(
+    "🎉 Glückwunsch!\n\nDu hast 3 Fragen richtig beantwortet.\n\nUnten auf der Startseite wurde nun dein Gewinn freigeschaltet."
+  );
+}
 
 localStorage.setItem(
 "coins",

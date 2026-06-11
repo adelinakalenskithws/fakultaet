@@ -1,226 +1,319 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QR Challenge</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THWS QR Challenge</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<style>
+:root{
+    --bg:#f5f7fa;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --success:#16a34a;
+    --success-bg:#f0fdf4;
+    --button:#111827;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding:24px;
+}
+
+.container{
+    max-width:700px;
+    margin:0 auto;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+
+h1{
+    font-size:2rem;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+h2{
+    font-size:1.2rem;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:var(--muted);
+    margin-bottom:24px;
+    line-height:1.5;
+}
+
+.progress{
+    margin:24px 0;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:.95rem;
+}
+
+.progress-bar{
+    height:10px;
+    background:#e5e7eb;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:#111827;
+}
+
+.station{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.station.done{
+    background:var(--success-bg);
+    border-color:#bbf7d0;
+}
+
+.question{
+    margin-top:20px;
+    margin-bottom:20px;
+    font-size:1.1rem;
+    line-height:1.5;
+}
+
+.option{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
+}
+
+.option label{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    cursor:pointer;
+}
+
+.option input{
+    margin-top:3px;
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    background:var(--button);
+    color:white;
+    padding:14px;
+    font-size:1rem;
+    cursor:pointer;
+    margin-top:12px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.message{
+    margin-top:18px;
+    padding:14px;
+    border-radius:12px;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
+    background:#fef2f2;
+    color:#991b1b;
+}
+
+.reward{
+    margin-top:24px;
+    padding:20px;
+    border:1px solid #bbf7d0;
+    background:#f0fdf4;
+    border-radius:16px;
+}
+
+.faculty{
+    color:var(--muted);
+    font-size:.95rem;
+    margin-bottom:12px;
+}
+
+@media(max-width:600px){
+    body{
+        padding:16px;
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+    .card{
+        padding:20px;
     }
 
-    .container {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 24px;
-      padding: 28px 22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      text-align: center;
+    h1{
+        font-size:1.7rem;
     }
-
-    .emoji {
-      font-size: 52px;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-      font-weight: 800;
-    }
-
-    .subtitle {
-      color: #d1d5db;
-      font-size: 15px;
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-
-    .stations {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .station {
-      background: rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-
-    .station.done {
-      background: rgba(34,197,94,0.18);
-      border: 1px solid rgba(34,197,94,0.4);
-    }
-
-    .station.pending {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .reward {
-      background: linear-gradient(135deg, #f59e0b, #f97316);
-      color: white;
-      border-radius: 22px;
-      padding: 24px 18px;
-      animation: pop 0.4s ease;
-    }
-
-    .reward h2 {
-      font-size: 28px;
-      margin-bottom: 12px;
-    }
-
-    .reward p {
-      margin-bottom: 14px;
-      font-size: 16px;
-    }
-
-    .code {
-      background: rgba(255,255,255,0.2);
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .progress {
-      margin-bottom: 22px;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 12px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #22c55e, #4ade80);
-      border-radius: 999px;
-      transition: width 0.4s ease;
-    }
-
-    @keyframes pop {
-      from {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 28px;
-      }
-
-      .station {
-        font-size: 16px;
-      }
-
-      .code {
-        font-size: 20px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
+    <div class="card" id="app"></div>
+</div>
 
-    <div class="emoji">🎯</div>
+<script>
 
-    <h1>QR Challenge</h1>
+const REQUIRED_COINS = 3;
 
-    <p class="subtitle">
-      Scanne alle 3 Stationen, um deinen Gutschein freizuschalten.
-    </p>
-
-    <div class="progress">
-      <div id="progressText">0 / 3 Stationen geschafft</div>
-
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
-    <div class="stations" id="status"></div>
-
-    <div id="reward" class="reward hidden">
-      <h2>🎉 Gutschein freigeschaltet!</h2>
-
-      <p>Zeig diesen Screen vor:</p>
-
-      <div class="code">
-        POPCORN-2026
-      </div>
-    </div>
-
-  </div>
-
- <script>
 const questions = {
-  1: {
-    question: "Welche Farbe hat der Himmel?",
-    answers: ["Rot", "Blau", "Grün"],
-    correct: 1
-  },
-  2: {
-    question: "Wie viele Tage hat eine Woche?",
-    answers: ["7", "5", "10"],
-    correct: 0
-  },
-  3: {
-    question: "Welches Tier miaut?",
-    answers: ["Hund", "Katze", "Pferd"],
-    correct: 1
-  },
-  4: {
-    question: "Wie viel ist 2 + 2?",
-    answers: ["3", "4", "5"],
-    correct: 1
-  },
-  5: {
-    question: "Welche Jahreszeit kommt nach dem Frühling?",
-    answers: ["Winter", "Herbst", "Sommer"],
-    correct: 2
-  }
+
+1:{
+faculty:"Fakultät Kunststofftechnik und Vermessung",
+type:"single",
+question:"Mit welchem Material könnt ihr bei uns sowohl Karabiner als auch Kreisel herstellen?",
+options:[
+"Polyamid gefüllt mit Glasfaser",
+"Holz",
+"Metall",
+"Recycelter Kunststoff"
+],
+correct:[3]
+},
+
+2:{
+faculty:"Fakultät Angewandte Natur- und Geisteswissenschaften",
+type:"single",
+question:"Welche der folgenden Vorlesungen findet im Studiengang »Angewandte Mathematik« der THWS statt?",
+options:[
+"Physiologie 1",
+"Konstruktionslehre 2",
+"Analysis 3",
+"Marketing 4"
+],
+correct:[2]
+},
+
+3:{
+faculty:"THWS Business School",
+type:"single",
+question:"Wie viele Bachelorprogramme bietet die Fakultät Business School an?",
+options:[
+"3",
+"6",
+"9",
+"12"
+],
+correct:[1]
+},
+
+4:{
+faculty:"Fakultät Wirtschaftsingenieurwesen",
+type:"single",
+question:"Welches Drehmoment kann man mit einem normalen Schraubendreher per Hand erreichen?",
+options:[
+"0,3–0,5 Nm",
+"1,5–3 Nm",
+"8–12 Nm"
+],
+correct:[1]
+},
+
+5:{
+faculty:"Fakultät Architektur und Bauingenieurwesen",
+type:"single",
+question:"Was begrenzt die Höhe von Wolkenkratzern am stärksten?",
+options:[
+"Weil oben zu wenig Sauerstoff vorhanden ist",
+"Wegen Wind, Schwingungen und der Materialbelastung",
+"Weil Aufzüge zu langsam werden",
+"Aufgrund der Erdrotation"
+],
+correct:[1]
+},
+
+6:{
+faculty:"Fakultät Informatik und Wirtschaftsinformatik",
+type:"single",
+question:"Wie viele verschiedene Bachelor-Studiengänge kann man an der FIW studieren?",
+options:[
+"3 Studiengänge",
+"4 Studiengänge",
+"5 Studiengänge",
+"6 Studiengänge"
+],
+correct:[3]
+},
+
+7:{
+faculty:"Fakultät Angewandte Sozialwissenschaften",
+type:"multiple",
+question:"Welche akademischen Abschlüsse kann man an der Fakultät Angewandte Sozialwissenschaften erlangen?",
+options:[
+"Den Bachelor",
+"Den Master",
+"Den Doktorgrad"
+],
+correct:[0,1,2]
+},
+
+8:{
+faculty:"Fakultät Gestaltung",
+type:"multiple",
+question:"Welche Themen gehören eher zum Kommunikationsdesign?",
+options:[
+"Marken und Logos entwickeln",
+"Gestaltung von Social-Media-Inhalten",
+"Steuerrecht und Buchhaltung",
+"Fotografie und visuelle Kommunikation"
+],
+correct:[0,1,3]
+},
+
+9:{
+faculty:"Fakultät Maschinenbau",
+type:"single",
+question:"Was passiert, wenn eine Vorrichtung mit ihrer Eigenfrequenz angeregt wird?",
+options:[
+"Sie schwingt stärker",
+"Sie schwingt gleich stark",
+"Sie schwingt weniger"
+],
+correct:[0]
+}
+
 };
+
+const app = document.getElementById("app");
 
 const params = new URLSearchParams(window.location.search);
 const station = params.get("s");
@@ -228,161 +321,187 @@ const station = params.get("s");
 let coins = JSON.parse(localStorage.getItem("coins") || "[]");
 let rewardClaimed = localStorage.getItem("rewardClaimed") === "true";
 
-const container = document.querySelector(".container");
+function renderHome(){
 
-function renderHome() {
+let html = `
+<h1>THWS QR Challenge</h1>
 
-  let html = `
-    <div class="emoji">🪙</div>
+<p class="subtitle">
+Scanne QR-Codes an den Fakultäten und beantworte die Fragen.
+Für den Gewinn werden mindestens ${REQUIRED_COINS} richtige Antworten benötigt.
+</p>
 
-    <h1>QR Challenge</h1>
+<div class="progress">
+<div class="progress-label">
+<span>${coins.length} von 9 Stationen gelöst</span>
+<span>${Math.round((coins.length/9)*100)}%</span>
+</div>
 
-    <p class="subtitle">
-      Sammle mindestens 3 Münzen.
-    </p>
+<div class="progress-bar">
+<div class="progress-fill"
+style="width:${(coins.length/9)*100}%">
+</div>
+</div>
+</div>
+`;
 
-    <div class="progress">
-      <div>${coins.length} / 3 Münzen gesammelt</div>
+for(let i=1;i<=9;i++){
 
-      <div class="progress-bar">
-        <div class="progress-fill"
-             style="width:${Math.min(coins.length,3)/3*100}%"></div>
-      </div>
-    </div>
-  `;
-
-  for(let i=1;i<=5;i++) {
-
-    const done = coins.includes(String(i));
-
-    html += `
-      <div class="station ${done ? 'done' : 'pending'}">
-        <span>Station ${i}</span>
-        <span>${done ? '🪙' : '⬜'}</span>
-      </div>
-    `;
-  }
-
-  if(rewardClaimed){
-
-    html += `
-      <div class="reward">
-        <h2>✅ Gewinn bereits eingelöst</h2>
-      </div>
-    `;
-
-  } else if(coins.length >= 3){
-
-    html += `
-      <div class="reward">
-        <h2>🎉 Glückwunsch!</h2>
-
-        <p>
-          Gehe jetzt zum Gewinnstand und zeige deinen Gewinn einmal vor.
-        </p>
-
-        <button id="claimReward">
-          Gewinn eingelöst
-        </button>
-      </div>
-    `;
-  }
-
-  container.innerHTML = html;
-
-  const btn = document.getElementById("claimReward");
-
-  if(btn){
-    btn.addEventListener("click", () => {
-
-      localStorage.setItem("rewardClaimed", "true");
-
-      location.href = window.location.pathname;
-    });
-  }
+html += `
+<div class="station ${coins.includes(String(i)) ? 'done' : ''}">
+<span>Station ${i}</span>
+<span>${coins.includes(String(i)) ? 'Erledigt' : 'Offen'}</span>
+</div>
+`;
 }
 
-function showQuestion(stationId){
+if(rewardClaimed){
 
-  if(coins.includes(stationId)){
+html += `
+<div class="reward">
+<h2>Gewinn bereits eingelöst</h2>
+<p>Vielen Dank für deine Teilnahme.</p>
+</div>
+`;
 
-    renderHome();
-    return;
-  }
+}
+else if(coins.length >= REQUIRED_COINS){
 
-  const q = questions[stationId];
+html += `
+<div class="reward">
+<h2>Gewinn freigeschaltet</h2>
 
-  if(!q){
-    renderHome();
-    return;
-  }
+<p>
+Gehe jetzt zum Gewinnstand und zeige diese Seite vor.
+</p>
 
-  let answersHtml = "";
-
-  q.answers.forEach((answer,index)=>{
-
-    answersHtml += `
-      <button
-        class="answer-btn"
-        onclick="checkAnswer(${stationId},${index})">
-        ${answer}
-      </button>
-    `;
-  });
-
-  container.innerHTML = `
-    <div class="emoji">❓</div>
-
-    <h1>Station ${stationId}</h1>
-
-    <p style="margin-bottom:20px;">
-      ${q.question}
-    </p>
-
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      ${answersHtml}
-    </div>
-
-    <p id="result"
-       style="margin-top:20px;font-weight:bold;">
-    </p>
-  `;
+<button onclick="claimReward()">
+Gewinn eingelöst
+</button>
+</div>
+`;
 }
 
-window.checkAnswer = function(stationId, answerIndex){
-
-  const q = questions[stationId];
-  const result = document.getElementById("result");
-
-  if(answerIndex === q.correct){
-
-    coins.push(String(stationId));
-
-    localStorage.setItem(
-      "coins",
-      JSON.stringify(coins)
-    );
-
-    result.innerHTML =
-      "✅ Richtig! Du hast eine Münze erhalten.";
-
-    setTimeout(() => {
-      location.href = window.location.pathname;
-    }, 1500);
-
-  } else {
-
-    result.innerHTML =
-      "❌ Schade, versuche es nochmal.";
-  }
+app.innerHTML = html;
 }
+
+function showQuestion(id){
+
+if(coins.includes(String(id))){
+renderHome();
+return;
+}
+
+const q = questions[id];
+
+let html = `
+<h2>${q.faculty}</h2>
+
+<div class="question">
+${q.question}
+</div>
+
+<form id="questionForm">
+`;
+
+q.options.forEach((option,index)=>{
+
+const type = q.type === "multiple" ? "checkbox" : "radio";
+
+html += `
+<div class="option">
+<label>
+<input
+type="${type}"
+name="answer"
+value="${index}">
+<span>${option}</span>
+</label>
+</div>
+`;
+});
+
+html += `
+<button type="submit">
+Antwort prüfen
+</button>
+
+<div id="result"></div>
+
+</form>
+`;
+
+app.innerHTML = html;
+
+document.getElementById("questionForm")
+.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+let selected = [];
+
+document
+.querySelectorAll("input:checked")
+.forEach(el => selected.push(Number(el.value)));
+
+selected.sort();
+
+const correct = [...q.correct].sort();
+
+const isCorrect =
+JSON.stringify(selected) === JSON.stringify(correct);
+
+const result = document.getElementById("result");
+
+if(isCorrect){
+
+coins.push(String(id));
+
+localStorage.setItem(
+"coins",
+JSON.stringify(coins)
+);
+
+result.innerHTML = `
+<div class="message success">
+Antwort korrekt. Station erfolgreich abgeschlossen.
+</div>
+`;
+
+setTimeout(()=>{
+location.href = window.location.pathname;
+},1500);
+
+}else{
+
+result.innerHTML = `
+<div class="message error">
+Leider nicht korrekt. Bitte versuche es erneut.
+</div>
+`;
+
+}
+});
+}
+
+window.claimReward = function(){
+
+localStorage.setItem(
+"rewardClaimed",
+"true"
+);
+
+location.reload();
+};
 
 if(station && questions[station]){
-  showQuestion(station);
-} else {
-  renderHome();
+showQuestion(station);
+}else{
+renderHome();
 }
+
 </script>
 
 </body>
 </html>
+
